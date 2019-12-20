@@ -1,0 +1,148 @@
+{
+  certificate: '-----BEGIN CERTIFICATE-----\nMIIChjCCAi2gAwIBAgIUGEfF9R5hkqQldsfvn9KXdFly6RYwCgYIKoZIzj0EAwIw\nczELMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNh\nbiBGcmFuY2lzY28xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMT\nE2NhLm9yZzEuZXhhbXBsZS5jb20wHhcNMTkwNzEyMDcyMzAwWhcNMjAwNzExMDcy\nODAwWjA+MTAwDQYDVQQLEwZjbGllbnQwCwYDVQQLEwRvcmcxMBIGA1UECxMLZGVw\nYXJ0bWVudDExCjAIBgNVBAMTAWswWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQP\n8csbNTeWi7ZMcRoNJVuygdYHqJGJqBSL4acdaQuX2r3RYCDjuOolReNtf2ejeqcX\nkMpNISM2OpnTfqzJGkE+o4HTMIHQMA4GA1UdDwEB/wQEAwIHgDAMBgNVHRMBAf8E\nAjAAMB0GA1UdDgQWBBTusGqqTYbaOJ7GNXkDAoYCKktacTArBgNVHSMEJDAigCBC\nOaoNzXba7ri6DNpwGFHRRQTTGq0bLd3brGpXNl5JfDBkBggqAwQFBgcIAQRYeyJh\ndHRycyI6eyJoZi5BZmZpbGlhdGlvbiI6Im9yZzEuZGVwYXJ0bWVudDEiLCJoZi5F\nbnJvbGxtZW50SUQiOiJrIiwiaGYuVHlwZSI6ImNsaWVudCJ9fTAKBggqhkjOPQQD\nAgNHADBEAiB2RSEDQKh3x7CliHSFlt5wTmlt6po2SYfx1JWXkj+07AIgZjcvULV4\nbDPv0gydHcYW33uFP42XDAh7EuznWGnf76Q=\n-----END CERTIFICATE-----\n',
+  rootCertificate: '-----BEGIN CERTIFICATE-----\nMIICRDCCAeqgAwIBAgIRAIk/1HQ6XgI0p64PQwvUA3owCgYIKoZIzj0EAwIwczEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh\nLm9yZzEuZXhhbXBsZS5jb20wHhcNMTcwODMxMDkxNDMyWhcNMjcwODI5MDkxNDMy\nWjBzMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMN\nU2FuIEZyYW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEcMBoGA1UE\nAxMTY2Eub3JnMS5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IA\nBM0tgEje2ssj/AWFh/70ymdVvVH+8EWtu7/jcn5Hy7gTvewJzHSdF9gID50d/bZx\n65KOreUxetqitV6/m2DgNzujXzBdMA4GA1UdDwEB/wQEAwIBpjAPBgNVHSUECDAG\nBgRVHSUAMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIEI5qg3NdtruuLoM2nAY\nUdFFBNMarRst3dusalc2Xkl8MAoGCCqGSM49BAMCA0gAMEUCIQDufxsHbxkSP/y+\noM2xZGgHL5XSTJVBqBryk1rd08Af6QIgLiAwtR7iKRbf1pKKCkt66MZzItZXC0po\n/45uf29T/sc=\n-----END CERTIFICATE-----\n',
+  key: ECDSA_KEY
+{
+  _key: {
+    type: 'EC',
+    isPrivate: true,
+    isPublic: false,
+    getBigRandom: [
+      Function
+    ],
+    setNamedCurve: [
+      Function
+    ],
+    setPrivateKeyHex: [
+      Function
+    ],
+    setPublicKeyHex: [
+      Function
+    ],
+    getPublicKeyXYHex: [
+      Function
+    ],
+    getShortNISTPCurveName: [
+      Function
+    ],
+    generateKeyPairHex: [
+      Function
+    ],
+    signWithMessageHash: [
+      Function
+    ],
+    signHex: [
+      Function
+    ],
+    sign: [
+      Function
+    ],
+    verifyWithMessageHash: [
+      Function
+    ],
+    verifyHex: [
+      Function
+    ],
+    verify: [
+      Function
+    ],
+    verifyRaw: [
+      Function
+    ],
+    serializeSig: [
+      Function
+    ],
+    parseSig: [
+      Function
+    ],
+    parseSigCompact: [
+      Function
+    ],
+    readPKCS5PrvKeyHex: [
+      Function
+    ],
+    readPKCS8PrvKeyHex: [
+      Function
+    ],
+    readPKCS8PubKeyHex: [
+      Function
+    ],
+    readCertPubKeyHex: [
+      Function
+    ],
+    curveName: 'secp256r1',
+    ecparams: [
+      Object
+    ],
+    prvKeyHex: '7fb84d8e4e66f95f7eb4f80540ef15eb72f6de33a2e4c3d555250cc8c796a7d9',
+    pubKeyHex: '040ff1cb1b3537968bb64c711a0d255bb281d607a89189a8148be1a71d690b97dabdd16020e3b8ea2545e36d7f67a37aa71790ca4d2123363a99d37eacc91a413e'
+  }
+}
+}
+
+
+ceretificate 내용
+-----BEGIN CERTIFICATE-----
+MIIChjCCAi2gAwIBAgIUGEfF9R5hkqQldsfvn9KXdFly6RYwCgYIKoZIzj0EAwIw
+czELMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNh
+biBGcmFuY2lzY28xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMT
+E2NhLm9yZzEuZXhhbXBsZS5jb20wHhcNMTkwNzEyMDcyMzAwWhcNMjAwNzExMDcy
+ODAwWjA+MTAwDQYDVQQLEwZjbGllbnQwCwYDVQQLEwRvcmcxMBIGA1UECxMLZGVw
+YXJ0bWVudDExCjAIBgNVBAMTAWswWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQP
+8csbNTeWi7ZMcRoNJVuygdYHqJGJqBSL4acdaQuX2r3RYCDjuOolReNtf2ejeqcX
+kMpNISM2OpnTfqzJGkE+o4HTMIHQMA4GA1UdDwEB/wQEAwIHgDAMBgNVHRMBAf8E
+AjAAMB0GA1UdDgQWBBTusGqqTYbaOJ7GNXkDAoYCKktacTArBgNVHSMEJDAigCBC
+OaoNzXba7ri6DNpwGFHRRQTTGq0bLd3brGpXNl5JfDBkBggqAwQFBgcIAQRYeyJh
+dHRycyI6eyJoZi5BZmZpbGlhdGlvbiI6Im9yZzEuZGVwYXJ0bWVudDEiLCJoZi5F
+bnJvbGxtZW50SUQiOiJrIiwiaGYuVHlwZSI6ImNsaWVudCJ9fTAKBggqhkjOPQQD
+AgNHADBEAiB2RSEDQKh3x7CliHSFlt5wTmlt6po2SYfx1JWXkj+07AIgZjcvULV4
+bDPv0gydHcYW33uFP42XDAh7EuznWGnf76Q=
+-----END CERTIFICATE-----
+Common Name: k
+Organization Unit: client
+Valid From: July 12, 2019
+Valid To: July 11, 2020
+Issuer: ca.org1.example.com, org1.example.com
+Serial Number: 1847c5f51e6192a42576c7ef9fd297745972e916
+
+
+
+root certificate 내용
+-----BEGIN CERTIFICATE-----
+MIICRDCCAeqgAwIBAgIRAIk1HQ6XgI0p64PQwvUA3owCgYIKoZIzj0EAwIwczEL
+MAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG
+cmFuY2lzY28xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh
+Lm9yZzEuZXhhbXBsZS5jb20wHhcNMTcwODMxMDkxNDMyWhcNMjcwODI5MDkxNDMy
+WjBzMQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMN
+U2FuIEZyYW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEcMBoGA1UE
+AxMTY2Eub3JnMS5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IA
+BM0tgEje2ssj/AWFh/70ymdVvVH+8EWtu7/jcn5Hy7gTvewJzHSdF9gID50d/bZx
+65KOreUxetqitV6/m2DgNzujXzBdMA4GA1UdDwEB/wQEAwIBpjAPBgNVHSUECDAG
+BgRVHSUAMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIEI5qg3NdtruuLoM2nAY
+UdFFBNMarRst3dusalc2Xkl8MAoGCCqGSM49BAMCA0gAMEUCIQDufxsHbxkSP/y+
+oM2xZGgHL5XSTJVBqBryk1rd08Af6QIgLiAwtR7iKRbf1pKKCkt66MZzItZXC0po
+/45uf29T/sc=
+-----END CERTIFICATE-----
+
+Common Name: ca.org1.example.com
+Organization: org1.example.com
+Locality: San Francisco
+State: California
+Country: US
+Valid From: August 31, 2017
+Valid To: August 29, 2027
+Issuer: ca.org1.example.com, org1.example.com
+Serial Number: 893fd4743a5e0234a7ae0f430bd4037a
+
+--/crypto-config/peerOragnizations/charidonatchain.com/users/User1@charidonatchain.com/cacaerts/ca.charidonatchain.com-cert.pem 의 내용
+Common Name: ca.charidonatchain.com
+Organization: charidonatchain.com
+Locality: Mapo
+State: Seoul
+Country: KOREA
+Valid From: July 10, 2019
+Valid To: July 7, 2029
+Issuer: ca.charidonatchain.com, charidonatchain.com
+Serial Number: 125c5f53fbfe0098285b667a8d3dbf29
+
+--/crypto-config/peerOrganizations/charidonatchain.com/users/User1@charidonatchain.com/msp/admincerts 의 내용

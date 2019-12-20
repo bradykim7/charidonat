@@ -1,0 +1,172 @@
+---
+
+name: "cdcn-network"
+
+x-type: "hlfv1"
+
+description: "The charidontachain network"
+
+
+version: "1.0"
+
+
+channels:
+  cdcn-channel:
+
+    orderers:
+      - orderer3.charidonatorderer.com
+
+    peers:
+      # ANIMALLOVE ORG
+      # Anchor Peer
+      peer0.animallove.com:
+        # endorsingPeer & chaincodeQuery == true : chaincode must be installed that peer
+        endorsingPeer: true
+
+        chaincodeQuery: true
+
+        ledgerQuery: true
+
+      # Endorse peer
+      peer1.animallove.com:
+        # option : If the peer is endorser set the true
+        # And Peer must be installed  the chaincode
+        endorsingPeer: true
+
+        chaincodeQuery: true
+
+        ledgerQuery: true
+
+      # CHARIDONATCHAIN ORG
+      # Anchor Peer
+      peer0.charidonatchain.com:
+        endorsingPeer: true
+
+        chaincodeQuery: true
+
+        ledgerQuery: true
+
+      # Endorse peer
+      peer1.charidoantchain.com:
+        # option : If the peer is endorser set the true
+        # And Peer must be installed  the chaincode
+        endorsingPeer: true
+
+        chaincodeQuery: true
+
+        ledgerQuery: true
+
+      # Org1 ORG
+      # Anchor Peer
+      ChildPeer.org1.com:
+        endorsingPeer: true
+
+        chaincodeQuery: true
+
+        ledgerQuery: true
+
+      # Endorse peer
+      FoodDonatPeer.org1.com:
+        # option : If the peer is endorser set the true
+        # And Peer must be installed  the chaincode
+        endorsingPeer: true
+
+        chaincodeQuery: true
+
+        ledgerQuery: true
+
+
+#
+# list of participating organizations in this network
+#
+organizations:
+
+  animallove:
+    mspid: animalloveMSP
+    peers:
+      - peer0.animallove.com
+      - peer1.animallove.com
+    adminPrivateKey:
+      path: crypto-config/peerOrganizations/animallove.com/users/Admin@animallove.com/msp/keystore/55017a0893506c35dc3371938b9b936a570adfd444944a2f08fe58c0a0ec3fa1_sk
+    signedCert:
+      path: crypto-config/peerOrganizations/animallove.com/users/Admin@animallove.com/msp/signcerts/Admin@animallove.com-cert.pem
+
+  charidonatchain:
+    mspid: charidonatchainMSP
+    peers:
+      - peer0.charidonatchain.com
+      - peer1.charidonatchain.com
+    adminPrivateKey:
+      path: crypto-config/peerOrganizations/charidonatchain.com/users/Admin@charidonatchain.com/msp/keystore/a5728486ff90dcafcc8e1216a755175b239ee93f274401d881a7c7cf28222a14_sk
+    signedCert:
+      path: crypto-config/peerOrganizations/charidonatchain.com/users/Admin@charidonatchain.com/msp/signcerts/Admin@charidonatchain.com-cert.pem
+
+  org1:
+    mspid: org1MSP
+    peers:
+      - ChildPeer.org1.com
+      - FoodDonatPeer.org1.com
+    adminPrivateKey:
+      path: crypto-config/peerOrganizations/org1.com/users/Admin@org1.com/msp/keystore/807c78d001dbb63cac4affe0fb7a02572c19c540d5c1cc35932215042269b732_sk
+    signedCert:
+      path: crypto-config/peerOrganizations/org1.com/users/Admin@org1.com/msp/signcerts/Admin@org1.com-cert.pem
+
+orderers:
+  orderer3.charidonatorderer.com:
+    url: grpc://localhost:7050
+
+    grpcOptions:
+      ssl-target-name-override: orderer3.charidonatorderer.com
+    tlsCACerts:
+      path: crypto-config/ordererOrganizations/charidonatorderer.com/orderers/orderer3.charidonatorderer.com/msp/tlscacerts/tlsca.charidonatorderer.com-cert.pem
+
+# Peer
+peers:
+  peer0.charidonatchain.com:
+    url: grpc://localhost:7051
+    grpcOptions:
+      ssl-target-name-override: peer0.charidonatchain.com
+      request-timeout: 120001
+    tlsCACerts:
+      path: crypto-config/peerOrganizations/charidonatchain.com/peers/peer0.charidonatchain.com/msp/tlscacerts/tlsca.charidonatchain.com-cert.pem
+
+
+  peer1.charidonatchain.com:
+    url: grpc://localhost:8051
+    grpcOptions:
+      ssl-target-name-override: peer1.charidonatchain.com
+      request-timeout: 120001
+    tlsCACerts:
+      path: crypto-config/peerOrganizations/charidonatchain.com/peers/peer1.charidonatchain.com/msp/tlscacerts/tlsca.charidonatchain.com-cert.pem
+
+  peer0.animallove.com:
+    url: grpc://localhost:9051
+    grpcOptions:
+      ssl-target-name-override: peer0.animallove.com
+      request-timeout: 120001
+    tlsCACerts:
+      path: crypto-config/peerOrganizations/animallove.com/peers/peer0.animallove.com/msp/tlscacerts/tlsca.animallove.com-cert.pem
+
+  peer1.animallove.com:
+    url: grpc://localhost:10051
+    grpcOptions:
+      ssl-target-name-override: peer1.animallove.com
+      request-timeout: 120001
+    tlsCACerts:
+      path: crypto-config/peerOrganizations/animallove.com/peers/peer1.animallove.com/msp/tlscacerts/tlsca.animallove.com-cert.pem
+
+  ChlidPeer.org1.com:
+    url: grpc://localhost:11051
+    grpcOptions:
+      ssl-target-name-override: ChlidPeer.org1.com
+      request-timeout: 120001
+    tlsCACerts:
+      path: crypto-config/peerOrganizations/org1.com/peers/ChildPeer.org1.com/msp/tlscacerts/tlsca.org1.com-cert.pem
+
+  FoodDonatPeer.org1.com:
+    url: grpc://localhost:12051
+    grpcOptions:
+      ssl-target-name-override: FoodDonatPeer.org1.com
+      request-timeout: 120001
+    tlsCACerts:
+      path: crypto-config/peerOrganizations/org1.com/peers/FoodDonatPeer.org1.com/msp/tlscacerts/tlsca.org1.com-cert.pem

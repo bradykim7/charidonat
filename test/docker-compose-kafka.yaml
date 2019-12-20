@@ -1,0 +1,55 @@
+version: '2'
+  orderer0.charidonatorderer.com:
+  orderer1.charidonatorderer.com:
+  orderer2.charidonatorderer.com:
+  orderer3.charidonatorderer.com:
+  # Peer Information: Organization Animallove
+  peer0.animallove.com:
+  peer1.animallove.com:
+  # Peer Information: Charidonatchain
+  peer0.charidonatchain.com:
+  peer1.charidonatchain.com:
+  # Peer Information: Org1
+  ChildPeer.org1.com:
+  FoodDonatPeer.org1.com:
+# cdcn: ChariDonatChainNetwork
+networks:
+  cdcn:
+
+services:
+
+  zookeeper1.example.com:
+    container_name: zookeeper1.example.com
+    image: hyperledger/fabric-zookeeper:latest
+    environment:
+      - ZOO_MY_ID=2
+      - ZOO_SERVERS=ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:2888:3888 server.3=zookeeper2.example.com:2888:3888
+      - ZOOKEEPER_TICK_TIME= 2000
+    ports:
+      - 2181
+      - 2888
+      - 3888
+    networks:
+      - cdcn
+
+  kafka0.example.com:
+    container_name: kafka0.example.com
+    image: hyperledger/fabric-kafka:latest
+    depends_on:
+      - zookeeper1.example.com
+    environment:
+      - KAFKA_BROKER_ID=0
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com:2181,zookeeper1.example.com:2181,zookeeper2.example.com:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka0.example.com:9092
+      # Global Setting For Kafka Cluster
+      - KAFKA_MESSAGE_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_MIN_INSYNC_REPLICAS=2
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+    networks:
+      - cdcn
+    ports:
+      - 9092
+

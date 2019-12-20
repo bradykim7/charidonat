@@ -1,0 +1,200 @@
+
+---
+
+Organizations:
+
+    - &charidonatorderer
+        Name: charidonatordererMSP
+        ID: charidonatordererMSP
+        MSPDir: crypto-config/ordererOrganizations/charidonatorderer.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('charidonatordererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('charidonatordererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('charidonatordererMSP.admin')"
+
+    - &charidonatchain
+        Name: charidonatchainMSP
+
+        ID: charidonatchainMSP
+
+        MSPDir: crypto-config/peerOrganizations/charidonatchain.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('charidonatchainMSP.admin', 'charidonatchainMSP.peer', 'charidonatchainMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('charidonatchainMSP.admin', 'charidonatchainMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('charidonatchainMSP.admin')"
+        AnchorPeers:
+            - Host: peer0.charidonatchain.com
+              Port: 7051
+
+    - &animallove
+        Name: animalloveMSP
+
+        ID: animalloveMSP
+
+        MSPDir: crypto-config/peerOrganizations/animallove.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('animalloveMSP.admin', 'animalloveMSP.peer', 'animalloveMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('animalloveMSP.admin', 'animalloveMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('animalloveMSP.admin')"
+        AnchorPeers:
+            - Host: peer0.animallove.com
+              Port: 9051
+
+    - &org1
+        Name: org1MSP
+
+        ID: org1MSP
+
+        MSPDir: crypto-config/peerOrganizations/org1.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('org1MSP.admin', 'org1MSP.peer', 'org1MSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('org1MSP.admin', 'org1MSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('org1MSP.admin')"
+
+        AnchorPeers:
+            - Host: ChildPeer.org1.com
+              Port: 11051
+
+Capabilities:
+    Channel: &ChannelCapabilities
+        V1_3: true
+
+    Orderer: &OrdererCapabilities
+        V1_1: true
+
+    Application: &ApplicationCapabilities
+        V1_3: true
+        V1_2: false
+        V1_1: false
+
+Application: &ApplicationDefaults
+
+    Organizations:
+
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+
+    OrdererType: kafka
+
+    Addresses:
+        - orderer3.charidonatorderer.com:7050
+
+    BatchTimeout: 2s
+
+    BatchSize:
+
+        MaxMessageCount: 10
+
+        AbsoluteMaxBytes: 99 MB
+
+        PreferredMaxBytes: 512 KB
+
+    Kafka:
+        Brokers:
+            - kafka.example.com:9092
+
+    Organizations:
+
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+
+
+Channel: &ChannelDefaults
+
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+
+    Capabilities:
+        <<: *ChannelCapabilities
+
+Profiles:
+
+    SampleDevModeKafka:
+        <<: *ChannelDefaults
+        Capabilities:
+            <<: *ChannelCapabilities
+# Genesis Block
+        Orderer:
+            <<: *OrdererDefaults
+            Organizations:
+                - *charidonatorderer
+            Capabilities:
+                <<: *OrdererCapabilities
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                    - *org1
+                    - *charidonatchain
+                    - *animallove
+
+#Channel :  Application & Consortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *org1
+                - *charidonatchain
+                - *animallove
+            Capabilities:
+                <<: *ApplicationCapabilities
+
+        Consortium: SampleConsortium

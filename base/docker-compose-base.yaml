@@ -1,0 +1,203 @@
+version: '2'
+
+services:
+# 4 Orderer 
+  orderer0.charidonatorderer.com:
+    container_name: orderer0.charidonatorderer.com
+    extends:
+      file: peer-base.yaml
+      service: orderer-base
+    volumes:
+        - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+        - ../crypto-config/ordererOrganizations/charidonatorderer.com/orderers/orderer0.charidonatorderer.com/msp:/var/hyperledger/orderer/msp
+        - ../crypto-config/ordererOrganizations/charidonatorderer.com/orderers/orderer0.charidonatorderer.com/tls/:/var/hyperledger/orderer/tls
+        - orderer0.charidonatorderer.com:/var/hyperledger/production/orderer
+    ports:
+      - 7047:7050
+
+  orderer1.charidonatorderer.com:
+    container_name: orderer1.charidonatorderer.com
+    extends:
+      file: peer-base.yaml
+      service: orderer-base
+    volumes:
+        - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+        - ../crypto-config/ordererOrganizations/charidonatorderer.com/orderers/orderer1.charidonatorderer.com/msp:/var/hyperledger/orderer/msp
+        - ../crypto-config/ordererOrganizations/charidonatorderer.com/orderers/orderer1.charidonatorderer.com/tls/:/var/hyperledger/orderer/tls
+        - orderer1.charidonatorderer.com:/var/hyperledger/production/orderer
+    ports:
+      - 7048:7050
+
+  orderer2.charidonatorderer.com:
+    container_name: orderer2.charidonatorderer.com
+    extends:
+      file: peer-base.yaml
+      service: orderer-base
+    volumes:
+        - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+        - ../crypto-config/ordererOrganizations/charidonatorderer.com/orderers/orderer2.charidonatorderer.com/msp:/var/hyperledger/orderer/msp
+        - ../crypto-config/ordererOrganizations/charidonatorderer.com/orderers/orderer2.charidonatorderer.com/tls/:/var/hyperledger/orderer/tls
+        - orderer2.charidonatorderer.com:/var/hyperledger/production/orderer
+    ports:
+      - 7049:7050
+
+  orderer3.charidonatorderer.com:
+    container_name: orderer3.charidonatorderer.com
+    extends:
+      file: peer-base.yaml
+      service: orderer-base
+    volumes:
+        - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+        - ../crypto-config/ordererOrganizations/charidonatorderer.com/orderers/orderer3.charidonatorderer.com/msp:/var/hyperledger/orderer/msp
+        - ../crypto-config/ordererOrganizations/charidonatorderer.com/orderers/orderer3.charidonatorderer.com/tls/:/var/hyperledger/orderer/tls
+        - orderer3.charidonatorderer.com:/var/hyperledger/production/orderer
+    ports:
+      - 7050:7050
+
+# Peer Section
+
+# Org Animallove 
+# Peer0 : Anchor
+  peer0.animallove.com:
+    container_name: peer0.animallove.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.animallove.com
+      - CORE_PEER_ADDRESS=peer0.animallove.com:9051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:9051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.animallove.com:9052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:9052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.animallove.com:10051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.example.com:9051
+
+      - CORE_PEER_LOCALMSPID=animalloveMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/animallove.com/peers/peer0.animallove.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/animallove.com/peers/peer0.animallove.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.animallove.com:/var/hyperledger/production
+    ports:
+      - 9051:9051
+# Peer1
+  peer1.animallove.com:
+    container_name: peer1.animallove.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.animallove.com
+      - CORE_PEER_ADDRESS=peer1.animallove.com:10051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:10051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.animallove.com:10052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:10052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.animallove.com:9051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org1.example.com:10051
+
+      - CORE_PEER_LOCALMSPID=animalloveMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/animallove.com/peers/peer1.animallove.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/animallove.com/peers/peer1.animallove.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.animallove.com:/var/hyperledger/production
+    ports:
+      - 10051:10051
+
+# Org CharidonatChain 
+
+# Peer0
+  peer0.charidonatchain.com:
+    container_name: peer0.charidonatchain.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.charidonatchain.com
+      - CORE_PEER_ADDRESS=peer0.charidonatchain.com:7051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:7051
+      - CORE_PEER_CHAINCODEADDRESS=peer0.charidonatchain.com:7052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:7052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.charidonatchain.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.charidonatchain.com:8051
+      - CORE_PEER_LOCALMSPID=charidonatchainMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/charidonatchain.com/peers/peer0.charidonatchain.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/charidonatchain.com/peers/peer0.charidonatchain.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.charidonatchain.com:/var/hyperledger/production
+
+    ports:
+      - 7051:7051
+
+# Peer1
+  peer1.charidonatchain.com:
+    container_name: peer1.charidonatchain.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer1.charidonatchain.com
+      - CORE_PEER_ADDRESS=peer1.charidonatchain.com:8051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:8051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.charidonatchain.com:8052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:8052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.charidonatchain.com:8051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.charidonatchain.com:7051
+      - CORE_PEER_LOCALMSPID=charidonatchainMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/charidonatchain.com/peers/peer1.charidonatchain.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/charidonatchain.com/peers/peer1.charidonatchain.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.charidonatchain.com:/var/hyperledger/production
+    ports:
+      - 8051:8051
+
+# Org1
+
+# Peer ChildPeer
+  ChildPeer.org1.com:
+    container_name: ChildPeer.org1.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=ChildPeer.org1.com
+      - CORE_PEER_ADDRESS=ChildPeer.org1.com:11051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:11051
+      - CORE_PEER_CHAINCODEADDRESS=ChildPeer.org1.com:11052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:11052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=ChildPeer.org1.com:11051
+# CORE_PEER_GOSSIP_BOOTSTRAP : 여기로 부터 정보를 받아온다
+      - CORE_PEER_GOSSIP_BOOTSTRAP=FoodDonatPeer.org1.com:12051
+      - CORE_PEER_LOCALMSPID=org1MSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/org1.com/peers/ChildPeer.org1.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/org1.com/peers/ChildPeer.org1.com/tls:/etc/hyperledger/fabric/tls
+        - ChildPeer.org1.com:/var/hyperledger/production
+    ports:
+      - 11051:11051
+
+# Peer FoodDonatPeer
+  FoodDonatPeer.org1.com:
+    container_name: FoodDonatPeer.org1.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=FoodDonatPeer.org1.com
+      - CORE_PEER_ADDRESS=FoodDonatPeer.org1.com:12051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:12051
+      - CORE_PEER_CHAINCODEADDRESS=FoodDonatPeer.org1.com:12052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:12052
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=FoodDonatPeer.org1.com:12051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=ChildPeer.org1.com:11051
+      - CORE_PEER_LOCALMSPID=org1MSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/org1.com/peers/FoodDonatPeer.org1.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/org1.com/peers/FoodDonatPeer.org1.com/tls:/etc/hyperledger/fabric/tls
+        - FoodDonatPeer.org1.com:/var/hyperledger/production
+    ports:
+      - 12051:12051

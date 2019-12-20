@@ -1,0 +1,12 @@
+extends layout
+
+              block content
+                h1= title
+                p Welcome to #{title}
+                form(action ='/test')
+                  p
+                    input(type="text" name ="number")
+                  p
+                    textarea(name='description')
+                  p
+                    input(type="submit" value="전송")

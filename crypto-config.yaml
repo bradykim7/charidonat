@@ -1,0 +1,53 @@
+OrdererOrgs:
+  - Name: charidonatorderer
+    Domain: charidonatorderer.com
+    CA:
+        Country: KOREA
+        Province: Seoul
+        Locality: Mapo
+    Specs:
+      - Hostname: orderer0
+      - Hostname: orderer1
+      - Hostname: orderer2
+      - Hostname: orderer3
+
+PeerOrgs:
+# For Charidonatchain org 
+  - Name: charidonatchain
+    Domain: charidonatchain.com
+    CA:
+        Country: KOREA
+        Province: Seoul
+        Locality: Mapo
+    EnableNodeOUs: true
+    Template:
+      Count: 2	# The number of Peer 
+    Users:
+      Count: 1  # The number of Admin
+
+    # For Animal Charity Company 
+  - Name: animallove
+    Domain: animallove.com
+    CA:
+        Country: KOREA
+        Province: Seoul
+        Locality: Mapo
+    EnableNodeOUs: true
+    Template:
+      Count: 2
+    Users:
+      Count: 1
+
+    # For Companies that join the network as a  peer.
+  - Name: org1
+    Domain: org1.com
+    CA:
+        Country: KOREA
+        Province: Seoul
+        Locality: Mapo
+    Specs:
+      - Hostname: FoodDonatPeer
+      - Hostname: ChildPeer
+    EnableNodeOUs: true
+    Users:
+      Count: 1

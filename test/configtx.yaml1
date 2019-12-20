@@ -1,0 +1,225 @@
+# Organization Setting 
+---
+Organizations:
+# For CharidonatOrderer 
+    - &CharidonatOrderer
+        Name: CharidonatOrdererMSP
+
+        ID: CharidonatOrdererMSP
+
+        MSPDir: crypto-config/ordererOrganizations/charidonatorderer.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('CharidonatOrdererMSP.member')"
+            Writers:
+                Type: Signature
+                Rule: "OR('CharidonatOrdererMSP.member')"
+            Admins:
+                Type: Signature
+                Rule: "OR('CharidonatOrdererMSP.admin')"
+
+# For Charidonatchain org 
+    - &CharidonatChain
+        Name: CharidonatChain
+
+        ID: CharidonatChainMSP
+
+        MSPDir: crypto-config/peerOrganizations/charidonatchain.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('CharidonatChainMSP.admin', 'CharidonatChainMSP.peer', 'CharidonatChainMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('CharidonatChainMSP.admin', 'CharidonatChainMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('CharidonatChainMSP.admin')"
+
+        AnchorPeers:
+            - Host: peer0.charidonatchain.com
+              Port: 7051
+
+# For Animal Charity Company 
+    - &Animallove
+        Name: Animallove
+
+        ID: AnimalloveMSP
+
+        MSPDir: crypto-config/peerOrganizations/animallove.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('AnimalloveMSP.admin', 'AnimalloveMSP.peer', 'AnimalloveMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('AnimalloveMSP.admin', 'AnimalloveMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('AnimalloveMSP.admin')"
+
+        AnchorPeers:
+            - Host: peer0.animallove.com
+              Port: 9051
+
+# For Companies that join the network as a peer. 
+    - &Org1
+        Name: Org1
+
+        ID: Org1MSP
+
+        MSPDir: crypto-config/peerOrganizations/org1.com/msp
+
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('Org1MSP.admin', 'Org1MSP.peer', 'Org1MSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('Org1MSP.admin', 'Org1MSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('Org1MSP.admin')"
+ 
+        AnchorPeers:
+            - Host: ChildPeer.org1.com
+              Port: 11051
+
+# Version setting ? 
+Capabilities:
+    Channel: &ChannelCapabilities
+        V1_3: true
+
+    Orderer: &OrdererCapabilities
+        V1_1: true
+
+    Application: &ApplicationCapabilities
+        V1_3: true
+        V1_2: false
+        V1_1: false
+
+
+ 
+# Application Setting 
+Application: &ApplicationDefaults
+
+    Organizations:
+
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+
+    Capabilities:
+        <<: *ApplicationCapabilities
+
+# Orderer Setting 
+Orderer: &OrdererDefaults
+
+    OrdererType: kafka
+
+    Addresses:
+        - orderer0.charidonatorderer.com:7047
+        - orderer1.charidonatorderer.com:7048
+        - orderer2.charidonatorderer.com:7049
+        - orderer3.charidonatorderer.com:7050
+
+    BatchTimeout: 2s
+
+    BatchSize:
+        MaxMessageCount: 10
+        AbsoluteMaxBytes: 99 MB
+        PreferredMaxBytes: 512 KB
+
+    Kafka:
+        # NOTE: Use IP:port notation
+        Brokers:
+            - kafka.example.com:9092
+
+    Organizations:
+
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+        BlockValidation:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+
+
+# Channel Setting 
+Channel: &ChannelDefaults
+    Policies:
+        Readers:
+            Type: ImplicitMeta
+            Rule: "ANY Readers"
+        Writers:
+            Type: ImplicitMeta
+            Rule: "ANY Writers"
+        Admins:
+            Type: ImplicitMeta
+            Rule: "MAJORITY Admins"
+
+    Capabilities:
+        <<: *ChannelCapabilities
+
+
+# #####
+Profiles:
+
+    SampleDevModeKafka:
+        <<: *ChannelDefaults
+        Capabilities:
+            <<: *ChannelCapabilities
+        Orderer:
+            <<: *OrdererDefaults
+            OrdererType: kafka
+            Kafka:
+                Brokers:
+                - kafka.example.com:9092
+
+            Organizations:
+            - *CharidonatOrderer
+            Capabilities:
+                <<: *OrdererCapabilities
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *CharidonatOrderer
+                - *CharidonatChain
+                - *Animallove
+                - *Org1
+# Defining Consortium when generating Genesisblock
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                - *CharidonatChain
+                - *Animallove
+                - *Org1
+                - *CharidonatOrderer
+
+        Consortium: SampleConsortium
+        <<: *ChannelDefaults
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *CharidonatChain
+                - *Animallove
+                - *Org1
+                - *CharidonatOrderer

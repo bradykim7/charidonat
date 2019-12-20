@@ -1,0 +1,258 @@
+version: '2'
+
+volumes:
+  orderer0.charidonatorderer.com:
+  orderer1.charidonatorderer.com:
+  orderer2.charidonatorderer.com:
+  orderer3.charidonatorderer.com:
+# Peer Information: Organization Animallove
+  peer0.animallove.com:
+  peer1.animallove.com:
+# Peer Information: Charidonatchain
+  peer0.charidonatchain.com:
+  peer1.charidonatchain.com:
+# Peer Information: Org1
+  ChildPeer.org1.com:
+  FoodDonatPeer.org1.com:
+
+# cdcn: ChariDonatChainNetwork
+networks:
+  cdcn:
+
+services:
+
+  zookeeper0.example.com:
+    container_name: zookeeper0.example.com
+    image: hyperledger/fabric-zookeeper:latest
+    environment:
+      - ZOO_MY_ID=1
+      - ZOO_SERVERS=ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:2888:3888 server.3=zookeeper2.example.com:2888:3888
+      - ZOOKEEPER_TICK_TIME= 2000
+    restart: always
+    ports:
+      - 2181
+      - 2888
+      - 3888
+    networks:
+      - cdcn
+  zookeeper1.example.com:
+    container_name: zookeeper1.example.com
+    image: hyperledger/fabric-zookeeper:latest
+    environment:
+      - ZOO_MY_ID=2
+      - ZOO_SERVERS=ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:2888:3888 server.3=zookeeper2.example.com:2888:3888
+      - ZOOKEEPER_TICK_TIME= 2000
+    ports:
+      - 2181
+      - 2888
+      - 3888
+    networks:
+      - cdcn
+  zookeeper2.example.com:
+    container_name: zookeeper2.example.com
+    image: hyperledger/fabric-zookeeper:latest
+    environment:
+      - ZOO_MY_ID=3
+      - ZOO_SERVERS=ZOO_SERVERS=server.1=zookeeper0.example.com:2888:3888 server.2=zookeeper1.example.com:2888:3888 server.3=zookeeper2.example.com:2888:3888
+      - ZOOKEEPER_TICK_TIME= 2000
+    ports:
+      - 2181
+      - 2888
+      - 3888
+    networks:
+      - cdcn
+
+  kafka0.example.com:
+    container_name: kafka0.example.com
+    image: hyperledger/fabric-kafka:latest
+    depends_on:
+      - zookeeper0.example.com
+      - zookeeper1.example.com
+      - zookeeper2.example.com
+    environment:
+      - KAFKA_BROKER_ID=0
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com,zookeeper1.example.com,zookeeper2.example.com
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka0.example.com:9092
+      # Global Setting For Kafka Cluster
+      - KAFKA_MESSAGE_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_MIN_INSYNC_REPLICAS=2
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+    networks:
+      - cdcn
+    ports:
+      - 9092
+
+  kafka1.example.com:
+    container_name: kafka1.example.com
+    image: hyperledger/fabric-kafka:latest
+    depends_on:
+      - zookeeper0.example.com
+      - zookeeper1.example.com
+      - zookeeper2.example.com
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com,zookeeper1.example.com,zookeeper2.example.com
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka1.example.com:9092
+      # Global Setting For Kafka Cluster
+      - KAFKA_MESSAGE_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_MIN_INSYNC_REPLICAS=2
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+    networks:
+      - cdcn
+    ports:
+      - 9092
+
+  kafka2.example.com:
+    container_name: kafka2.example.com
+    image: hyperledger/fabric-kafka:latest
+    depends_on:
+      - zookeeper0.example.com
+      - zookeeper1.example.com
+      - zookeeper2.example.com
+    environment:
+      - KAFKA_BROKER_ID=2
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper0.example.com,zookeeper1.example.com,zookeeper2.example.com
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka2.example.com:9092
+      # Global Setting For Kafka Cluster
+      - KAFKA_MESSAGE_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_MIN_INSYNC_REPLICAS=2
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=3
+    networks:
+      - cdcn
+    ports:
+      - 9092
+
+  # Orderer
+  orderer0.charidonatorderer.com:
+    extends:
+      file: base/docker-compose-base.yaml
+      service: orderer0.charidonatorderer.com
+    container_name: orderer0.charidonatorderer.com
+    networks:
+      - cdcn
+
+  orderer1.charidonatorderer.com:
+    extends:
+      file: base/docker-compose-base.yaml
+      service: orderer1.charidonatorderer.com
+    container_name: orderer1.charidonatorderer.com
+    networks:
+      - cdcn
+
+  orderer2.charidonatorderer.com:
+    extends:
+      file: base/docker-compose-base.yaml
+      service: orderer2.charidonatorderer.com
+    container_name: orderer2.charidonatorderer.com
+    networks:
+      - cdcn
+
+  orderer3.charidonatorderer.com:
+    extends:
+      file: base/docker-compose-base.yaml
+      service: orderer3.charidonatorderer.com
+    container_name: orderer3.charidonatorderer.com
+    networks:
+      - cdcn
+
+# Peers / Animallove
+  peer0.animallove.com:
+    container_name: peer0.animallove.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.animallove.com
+    networks:
+      - cdcn
+
+  peer1.animallove.com:
+    container_name: peer1.animallove.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer1.animallove.com
+    networks:
+      - cdcn
+
+# Peers / ChariDonatchain
+  peer0.charidonatchain.com:
+    container_name: peer0.charidonatchain.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer0.charidonatchain.com
+    networks:
+      - cdcn
+
+  peer1.charidonatchain.com:
+    container_name: peer1.charidonatchain.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: peer1.charidonatchain.com
+    networks:
+      - cdcn
+
+
+# Peers / Org1
+  ChildPeer.org1.com:
+    container_name: ChildPeer.org1.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: ChildPeer.org1.com
+    networks:
+      - cdcn
+
+  FoodDonatPeer.org1.com:
+    container_name: FoodDonatPeer.org1.com
+    extends:
+      file:  base/docker-compose-base.yaml
+      service: FoodDonatPeer.org1.com
+    networks:
+      - cdcn
+
+# Application for CharidonatChain peer0
+  cli:
+    container_name: cli
+    image: hyperledger/fabric-tools:latest
+    tty: true
+    stdin_open: true
+# Environmet Values
+    environment:
+      - GOPATH=/opt/gopath
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_ID=cli
+      - CORE_PEER_ADDRESS=peer0.charidonatchain.com:7051
+      - CORE_PEER_LOCALMSPID=CharidonatChainMSP
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/charidonatchain.com/peers/peer0.charidonatchain.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/charidonatchain.com/peers/peer0.charidonatchain.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/charidonatchain.com/peers/peer0.charidonatchain.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/charidonatchain.com/users/Admin@charidonatchain.com/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: /bin/bash
+    volumes:
+        - /var/run/:/host/var/run/
+        - ./chaincode/:/opt/gopath/src/github.com/chaincode
+        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+    depends_on:
+      - orderer0.charidonatorderer.com
+      - orderer1.charidonatorderer.com
+      - orderer2.charidonatorderer.com
+      - orderer3.charidonatorderer.com
+      - peer0.animallove.com
+      - peer1.animallove.com
+      - peer0.charidonatchain.com
+      - peer1.charidonatchain.com
+      - ChildPeer.org1.com
+      - FoodDonatPeer.org1.com
+    networks:
+      - cdcn
